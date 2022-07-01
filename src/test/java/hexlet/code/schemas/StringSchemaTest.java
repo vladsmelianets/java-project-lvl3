@@ -34,6 +34,7 @@ final class StringSchemaTest {
         Assertions.assertThat(schema.isValid("what does the fox say")).as("string should be valid").isTrue();
         Assertions.assertThat(schema.isValid("")).as("empty string should not be valid").isFalse();
         Assertions.assertThat(schema.isValid(null)).as("null should not be valid").isFalse();
+        Assertions.assertThat(schema.isValid(THREE)).as("int should not be valid").isFalse();
     }
 
     @Test
