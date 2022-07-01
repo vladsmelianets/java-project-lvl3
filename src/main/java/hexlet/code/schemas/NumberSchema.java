@@ -1,68 +1,47 @@
 package hexlet.code.schemas;
 
+import hexlet.code.schemas.checks.Check;
+import hexlet.code.schemas.checks.NumberRequiredCheck;
+import hexlet.code.schemas.checks.PositiveCheck;
+import hexlet.code.schemas.checks.RangeCheck;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public final class NumberSchema {
 
-    private boolean requiresValidation;
-    private boolean requiresPositiveCheck;
-    private boolean requiresRangeCheck;
-    private int up;
-    private int down;
+    private final Map<String, Check> checks;
+    private boolean requiresCheck;
 
     public NumberSchema() {
-        this.requiresValidation = false;
-        this.requiresPositiveCheck = false;
-        this.requiresRangeCheck = false;
-
+        this.checks = new HashMap<>();
+        this.requiresCheck = false;
     }
 
     public boolean isValid(Object object) {
-        if (!requiresValidation) {
-            return true;
-        }
-        if (doesNotMatchReqs(object)) {
-            return false;
-        }
-        if (notPositive(object)) {
-            return false;
-        }
-        if (notInRange(object)) {
-            return false;
+        if (requiresCheck) {
+//            checks.values().stream().peek(check -> System.out.println(check.getClass().getSimpleName())).forEach(check -> System.out.println(check.perform(object)));
+            return checks.values().stream().allMatch(check -> check.perform(object));
         }
         return true;
     }
 
-    private boolean doesNotMatchReqs(Object object) {
-        return !(object instanceof Number);
-    }
-
-    private boolean notPositive(Object object) {
-        if (!requiresPositiveCheck) {
-            return false;
-        }
-        return (int) object < 1;
-    }
-
-    private boolean notInRange(Object object) {
-        if (!requiresRangeCheck) {
-            return false;
-        }
-        return (int) object < down || (int) object > up;
-    }
-
     public NumberSchema positive() {
-        requiresPositiveCheck = true;
+        PositiveCheck check = new PositiveCheck();
+        checks.put(check.getClass().getSimpleName(), check);
         return this;
     }
 
     public NumberSchema range(int from, int to) {
-        requiresRangeCheck = true;
-        this.up = to;
-        this.down = from;
+        RangeCheck check = new RangeCheck(from, to);
+        checks.put(check.getClass().getSimpleName(), check);
         return this;
     }
 
     public NumberSchema required() {
-        requiresValidation = true;
+        requiresCheck = true;
+        NumberRequiredCheck check = new NumberRequiredCheck();
+        checks.put(check.getClass().getSimpleName(), check);
         return this;
     }
 }
