@@ -29,9 +29,8 @@ final class StringSchemaTest {
     @Test
     @DisplayName("validation when just required")
     void shouldBeValidWhenRequiredAndRequirementsMet() {
-        schema.required();
+        Assertions.assertThat(schema.required().isValid("what does the fox say")).as("string should be valid").isTrue();
 
-        Assertions.assertThat(schema.isValid("what does the fox say")).as("string should be valid").isTrue();
         Assertions.assertThat(schema.isValid("")).as("empty string should not be valid").isFalse();
         Assertions.assertThat(schema.isValid(null)).as("null should not be valid").isFalse();
         Assertions.assertThat(schema.isValid(THREE)).as("int should not be valid").isFalse();
@@ -40,10 +39,9 @@ final class StringSchemaTest {
     @Test
     @DisplayName("validation when required contains")
     void shouldBeValidWhenRequiredContainsAndRequirementsMet() {
-        schema.required();
-
-        Assertions.assertThat(schema.contains("what").isValid("what does the fox say"))
+        Assertions.assertThat(schema.required().contains("what").isValid("what does the fox say"))
                 .as("string containing pattern should be valid").isTrue();
+
         Assertions.assertThat(schema.contains("whatthe").isValid("what does the fox say"))
                 .as("string not containing pattern should not be valid").isFalse();
     }
@@ -51,14 +49,12 @@ final class StringSchemaTest {
     @Test
     @DisplayName("validation when required min length")
     void shouldBeValidWhenRequiredMinLengthAndRequirementsMet() {
-        schema.required();
-
-        Assertions.assertThat(schema.minLength(FOUR).isValid("four"))
+        Assertions.assertThat(schema.required().minLength(FOUR).isValid("four"))
                 .as("string with min length should be valid").isTrue();
+
         Assertions.assertThat(schema.minLength(THREE).isValid("four"))
                 .as("string with greater length should be valid").isTrue();
         Assertions.assertThat(schema.minLength(TEN).isValid("four"))
                 .as("string with less length should not be valid").isFalse();
     }
-
 }

@@ -29,9 +29,8 @@ final class NumberSchemaTest {
     @Test
     @DisplayName("validation when just required")
     void shouldBeValidWhenRequiredAndRequirementsMet() {
-        schema.required();
+        Assertions.assertThat(schema.required().isValid(null)).as("null should not be valid").isFalse();
 
-        Assertions.assertThat(schema.isValid(null)).as("null should not be valid").isFalse();
         Assertions.assertThat(schema.isValid(TEN)).as("number should be valid").isTrue();
         Assertions.assertThat(schema.isValid("5")).as("string should not be valid").isFalse();
     }
@@ -39,19 +38,17 @@ final class NumberSchemaTest {
     @Test
     @DisplayName("validation when required positive")
     void shouldBeValidWhenRequiredPositiveAndRequirementsMet() {
-        schema.required();
+        Assertions.assertThat(schema.required().positive().isValid(TEN)).as("positive number should be valid").isTrue();
 
-        Assertions.assertThat(schema.positive().isValid(TEN)).as("positive number should be valid").isTrue();
         Assertions.assertThat(schema.isValid(NEGATIVE)).as("negative number should not be valid").isFalse();
     }
 
     @Test
     @DisplayName("validation when required range")
     void shouldBeValidWhenRequiredRangeAndRequirementsMet() {
-        schema.required();
+        Assertions.assertThat(schema.required().range(FIVE, TEN).isValid(FIVE)).as("number in range should be valid")
+                .isTrue();
 
-        schema.range(FIVE, TEN);
-        Assertions.assertThat(schema.isValid(FIVE)).as("number in range should be valid").isTrue();
         Assertions.assertThat(schema.isValid(TEN)).as("number in range should be valid").isTrue();
         Assertions.assertThat(schema.isValid(FOUR)).as("number not in range should not be valid").isFalse();
         Assertions.assertThat(schema.isValid(ELEVEN)).as("number not in range should not be valid").isFalse();
