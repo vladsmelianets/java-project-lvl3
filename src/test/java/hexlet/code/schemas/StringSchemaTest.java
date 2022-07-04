@@ -1,8 +1,8 @@
 package hexlet.code.schemas;
 
+import hexlet.code.Validator;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 final class StringSchemaTest {
@@ -15,20 +15,18 @@ final class StringSchemaTest {
 
     @BeforeEach
     void setSchema() {
-        schema = new StringSchema();
+        schema = new Validator().string();
     }
 
     @Test
-    @DisplayName("validation when not required")
-    void shouldBeValidWhenNotRequired() {
+    void shouldValidateAnythingWhenNotRequired() {
         Assertions.assertThat(schema.isValid("")).as("empty string should be valid").isTrue();
         Assertions.assertThat(schema.isValid(null)).as("null should be valid").isTrue();
         Assertions.assertThat(schema.isValid("what does the fox say")).as("string should be valid").isTrue();
     }
 
     @Test
-    @DisplayName("validation when just required")
-    void shouldBeValidWhenRequiredAndRequirementsMet() {
+    void shouldValidateStringWithPositiveLengthWhenRequired() {
         Assertions.assertThat(schema.required().isValid("what does the fox say")).as("string should be valid").isTrue();
 
         Assertions.assertThat(schema.isValid("")).as("empty string should not be valid").isFalse();
@@ -37,8 +35,7 @@ final class StringSchemaTest {
     }
 
     @Test
-    @DisplayName("validation when required contains")
-    void shouldBeValidWhenRequiredContainsAndRequirementsMet() {
+    void shouldValidateStringContainingGivenPatternWhenRequiredContains() {
         Assertions.assertThat(schema.required().contains("what").isValid("what does the fox say"))
                 .as("string containing pattern should be valid").isTrue();
 
@@ -47,8 +44,7 @@ final class StringSchemaTest {
     }
 
     @Test
-    @DisplayName("validation when required min length")
-    void shouldBeValidWhenRequiredMinLengthAndRequirementsMet() {
+    void shouldValidateStringWithLengthMoreThenMinLengthWhenRequiredMinLength() {
         Assertions.assertThat(schema.required().minLength(FOUR).isValid("four"))
                 .as("string with min length should be valid").isTrue();
 
