@@ -27,15 +27,15 @@ final class NumberSchemaTest {
 
     @Test
     void shouldValidateAnyNumberWhenRequired() {
-        Assertions.assertThat(schema.required().isValid(null)).as("null should not be valid").isFalse();
-
-        Assertions.assertThat(schema.isValid(TEN)).as("number should be valid").isTrue();
-        Assertions.assertThat(schema.isValid("5")).as("string should not be valid").isFalse();
+        Assertions.assertThat(schema.required().isValid(null)).as("null should not be valid when required").isFalse();
+        Assertions.assertThat(schema.isValid(TEN)).as("number should be valid when required").isTrue();
+        Assertions.assertThat(schema.isValid("5")).as("string should not be valid then required").isFalse();
     }
 
     @Test
     void shouldValidatePositiveNumberWhenPositive() {
         Assertions.assertThat(schema.positive().isValid(null)).as("null should be valid when positive").isTrue();
+        Assertions.assertThat(schema.positive().isValid("5")).as("string should not be valid when positive").isFalse();
         Assertions.assertThat(schema.required().positive().isValid(TEN))
                 .as("positive number should be valid when required positive").isTrue();
         Assertions.assertThat(schema.isValid(NEGATIVE)).as("negative number should not be valid when required positive")
