@@ -19,10 +19,12 @@ final class StringSchemaTest {
     }
 
     @Test
-    void shouldValidateAnythingWhenNotRequired() {
+    void shouldValidateWhenRequired() {
         Assertions.assertThat(schema.isValid("")).as("empty string should be valid").isTrue();
         Assertions.assertThat(schema.isValid(null)).as("null should be valid").isTrue();
         Assertions.assertThat(schema.isValid("what does the fox say")).as("string should be valid").isTrue();
+        Assertions.assertThat(schema.required().isValid("")).as("empty string should not be valid when required")
+                .isFalse();
     }
 
     @Test

@@ -34,10 +34,12 @@ final class NumberSchemaTest {
     }
 
     @Test
-    void shouldValidatePositiveNumberWhenRequiredPositive() {
-        Assertions.assertThat(schema.required().positive().isValid(TEN)).as("positive number should be valid").isTrue();
-
-        Assertions.assertThat(schema.isValid(NEGATIVE)).as("negative number should not be valid").isFalse();
+    void shouldValidatePositiveNumberWhenPositive() {
+        Assertions.assertThat(schema.positive().isValid(null)).as("null should be valid when positive").isTrue();
+        Assertions.assertThat(schema.required().positive().isValid(TEN))
+                .as("positive number should be valid when required positive").isTrue();
+        Assertions.assertThat(schema.isValid(NEGATIVE)).as("negative number should not be valid when required positive")
+                .isFalse();
     }
 
     @Test

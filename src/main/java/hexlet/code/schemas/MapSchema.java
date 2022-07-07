@@ -17,4 +17,10 @@ public final class MapSchema extends BaseSchema {
         getChecks().put("sizeof", obj -> ((Map<?, ?>) obj).size() == size);
         return this;
     }
+
+    public MapSchema shape(Map<String, BaseSchema> schemas) {
+        getChecks().put("shape", obj -> schemas.entrySet().stream()
+                .allMatch(entry -> entry.getValue().isValid(((Map<String, Object>) obj).get(entry.getKey()))));
+        return this;
+    }
 }

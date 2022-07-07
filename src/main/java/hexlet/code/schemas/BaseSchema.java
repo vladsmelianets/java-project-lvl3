@@ -17,9 +17,6 @@ public abstract class BaseSchema {
     }
 
     public final boolean isValid(Object object) {
-        if (checks.containsKey("required")) {
-            return checks.values().stream().allMatch(check -> check.test(object));
-        }
-        return true;
+        return checks.values().stream().allMatch(check -> check.test(object));
     }
 }
