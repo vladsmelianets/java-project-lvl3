@@ -30,8 +30,8 @@ import hexlet.code.schemas.StringSchema;
 Validator v=new Validator();
 StringSchema schema=v.string();
 
-schema.required().contains("what").minLength(FOUR).isValid("what does the fox say"); //true
-schema.required().contains("whatthe").minLength(FOUR).isValid("what does the fox say"); //false
+schema.required().contains("what").minLength(4).isValid("what does the fox say"); //true
+schema.required().contains("whatthe").minLength(4).isValid("what does the fox say"); //false
 ```
 
 #### Number validation
