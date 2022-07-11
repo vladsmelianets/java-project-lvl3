@@ -28,39 +28,39 @@ import hexlet.code.schemas.StringSchema;
 
 ```java
 Validator v=new Validator();
-        StringSchema schema=v.string();
+StringSchema schema=v.string();
 
-        schema.required().contains("what").minLength(FOUR).isValid("what does the fox say"); //true
-        schema.required().contains("whatthe").minLength(FOUR).isValid("what does the fox say"); //false
+schema.required().contains("what").minLength(FOUR).isValid("what does the fox say"); //true
+schema.required().contains("whatthe").minLength(FOUR).isValid("what does the fox say"); //false
 ```
 
 #### Number validation
 
 ```java
 Validator v=new Validator();
-        StringSchema schema=v.number();
+StringSchema schema=v.number();
 
-        schema.required().positive().range(5,10).isValid(5); //true
-        schema.required().positive().range(5,10).isValid(4); //false
+schema.required().positive().range(5,10).isValid(5); //true
+schema.required().positive().range(5,10).isValid(4); //false
 ```
 
 #### Map validation
 
 ```java
 Validator v=new Validator();
-        StringSchema schema=v.map();
+StringSchema schema=v.map();
 
-        schema.required().isValid(null); //false
-        schema.required().schema.sizeof(1).isValid(Map.of("key","val")); //true
+schema.required().isValid(null); //false
+schema.required().schema.sizeof(1).isValid(Map.of("key","val")); //true
 
 // shaping validation for map values by key
-        Map<String, BaseSchema> schemas=new HashMap<>();
-        schemas.put("name",validator.string().required());
-        schemas.put("age",validator.number().positive());
-        schema.shape(schemas);
+Map<String, BaseSchema> schemas=new HashMap<>();
+schemas.put("name",validator.string().required());
+schemas.put("age",validator.number().positive());
+schema.shape(schemas);
 
-        Map<String, Object> human1=new HashMap<>();
-        human1.put("name","Bob");
-        human1.put("age",100);
-        schema.isValid(human1)); //true
+Map<String, Object> human1=new HashMap<>();
+human1.put("name","Bob");
+human1.put("age",100);
+schema.isValid(human1)); //true
 ```
