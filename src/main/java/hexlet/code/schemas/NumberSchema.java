@@ -7,17 +7,17 @@ public final class NumberSchema extends BaseSchema {
     }
 
     public NumberSchema required() {
-        getChecks().put("required", Number.class::isInstance);
+        addCheck("required", Number.class::isInstance);
         return this;
     }
 
     public NumberSchema positive() {
-        getChecks().put("positive", object -> object == null || object instanceof Integer integer && integer > 0);
+        addCheck("positive", object -> object == null || object instanceof Integer integer && integer > 0);
         return this;
     }
 
     public NumberSchema range(int from, int to) {
-        getChecks().put("range", obj -> (int) obj >= from && (int) obj <= to);
+        addCheck("range", obj -> (int) obj >= from && (int) obj <= to);
         return this;
     }
 }

@@ -7,17 +7,17 @@ public final class StringSchema extends BaseSchema {
     }
 
     public StringSchema required() {
-        getChecks().put("required", obj -> obj instanceof String string && string.length() > 0);
+        addCheck("required", obj -> obj instanceof String string && string.length() > 0);
         return this;
     }
 
     public StringSchema contains(String sequence) {
-        getChecks().put("contains", obj -> ((String) obj).contains(sequence));
+        addCheck("contains", obj -> ((String) obj).contains(sequence));
         return this;
     }
 
     public StringSchema minLength(int minLength) {
-        getChecks().put("minLength", obj -> ((String) obj).length() >= minLength);
+        addCheck("minLength", obj -> ((String) obj).length() >= minLength);
         return this;
     }
 }

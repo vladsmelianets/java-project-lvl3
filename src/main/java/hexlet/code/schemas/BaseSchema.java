@@ -12,8 +12,8 @@ public abstract class BaseSchema {
         this.checks = new HashMap<>();
     }
 
-    protected final Map<String, Predicate<Object>> getChecks() {
-        return checks;
+    protected final void addCheck(String name, Predicate<Object> check) {
+        checks.put(name, check);
     }
 
     public final boolean isValid(Object object) {
